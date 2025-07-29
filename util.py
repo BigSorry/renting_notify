@@ -1,0 +1,48 @@
+import smtplib
+import json
+from pathlib import Path
+from email.mime.text import MIMEText
+
+def deleteJson(json_path):
+    """
+        :param json_path:
+        :return:
+    """
+    file_path = Path(json_path)
+    if file_path.is_file():
+        file_path.unlink()
+        print(f"Deleted: {file_path}")
+    else:
+        print(f"File not found: {file_path}")
+
+def readJson(file_path):
+    """
+       Read JSON file into dict. If file doesn't exist, return empty dict.
+    """
+    path = Path(file_path)
+    if path.exists():
+        return json.loads(path.read_text(encoding='utf-8'))
+    return {}
+
+def saveJson(file_path, output_json):
+    path = Path(file_path)
+    path.write_text(json.dumps(output_json, ensure_ascii=False, indent=4), encoding='utf-8')
+
+def saveOutputJson(scrape_json, output_path):
+    """
+        Save only new entries from scrape_json into output_json (by URL key).
+        Returns number of new entries added.
+    """
+    path = Path(output_path)
+    output_json = readJson(path) # TODO empty file doest work
+    new_count = 0
+
+    for item_dict in scrape_json:
+        for url, items in item_dict.items():
+            if url not in output_json:
+                output_json[url] = items
+                new_count += 1
+
+    if new_count > 0:
+        saveJson(path, output_json)
+
