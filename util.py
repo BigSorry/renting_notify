@@ -1,7 +1,5 @@
-import smtplib
 import json
 from pathlib import Path
-from email.mime.text import MIMEText
 
 def deleteJson(json_path):
     """
