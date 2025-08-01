@@ -18,13 +18,17 @@ def readJson(file_path):
        Read JSON file into dict. If file doesn't exist, return empty dict.
     """
     path = Path(file_path)
-    if path.exists():
-        return json.loads(path.read_text(encoding='utf-8'))
-    return {}
+    if not path.exists():
+        return {}
+    with path.open(encoding="utf-8") as f:
+        return json.load(f)
+
 
 def saveJson(file_path, output_json):
     path = Path(file_path)
-    path.write_text(json.dumps(output_json, ensure_ascii=False, indent=4), encoding='utf-8')
+    with path.open('w', encoding='utf-8') as f:
+        json.dump(output_json, f, ensure_ascii=False, indent=4)
+
 
 def saveOutputJson(scrape_json, output_path):
     """
