@@ -1,6 +1,7 @@
 import scrapy
 import webbrowser
 import time
+import util
 
 class FundaCrawler(scrapy.Spider):
     name = 'funda_crawler'

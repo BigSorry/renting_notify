@@ -1,7 +1,7 @@
 import scrapy
 import webbrowser
 import time
-
+import util
 class ParariusCrawler(scrapy.Spider):
     name = 'pararius_crawler'
     crawler_output_path = f"./json/{name}.json"
@@ -39,9 +39,10 @@ class ParariusCrawler(scrapy.Spider):
         number_of_rooms = response.css("li.illustrated-features__item--number-of-rooms::text").get(default="").strip()
         interior = response.css("li.illustrated-features__item--interior::text").get(default="").strip()
         main_description_information = response.css('span.listing-features__main-description::text').getall()
-        date = main_description_information[1] # Assumes the second elements in the list is the stored date
-        #print(date)
-        if any(keyword in date.lower() for keyword in self.dates_not_allowed):
+        date_str = main_description_information[1] # Assumes the second elements in the list is the stored date
+        days_ago = util.dateDaysDiffToday(date_str)
+        print(date_str, " days ago ", days_ago)
+        if days_ago > 3 or any(keyword in date_str.lower() for keyword in self.dates_not_allowed):
             return
         yield {
             url: {
@@ -52,9 +53,9 @@ class ParariusCrawler(scrapy.Spider):
                 "surface_area": surface_area,
                 "number_of_rooms": number_of_rooms,
                 "interior": interior,
-                "date": date,
+                "date": date_str,
                 "url": url,
                 "email_sent": False
             },
-            "date" : date # easier for sorting by date
+            "date" : date_str # easier for sorting by date
         }

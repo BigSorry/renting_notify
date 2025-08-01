@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-
+from datetime import datetime, timedelta
 def deleteJson(json_path):
     """
         :param json_path:
@@ -44,3 +44,10 @@ def saveOutputJson(scrape_json, output_path):
     if new_count > 0:
         saveJson(path, output_json)
 
+def dateDaysDiffToday(date_string):
+    # Convert string to date object
+    input_date = datetime.strptime(date_string, "%d-%m-%Y").date()
+    today = datetime.today().date()
+    days_difference = (today - input_date).days
+
+    return days_difference
