@@ -23,7 +23,8 @@ def readJson(file_path):
     with path.open(encoding="utf-8") as f:
         return json.load(f)
 
-
+# Now we write the total output each time again
+# TODO make it append only newly sent items.
 def saveJson(file_path, output_json):
     path = Path(file_path)
     with path.open('w', encoding='utf-8') as f:

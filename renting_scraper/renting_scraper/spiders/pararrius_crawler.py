@@ -8,11 +8,11 @@ class ParariusCrawler(scrapy.Spider):
     allowed_domains = ["pararius.nl"]
     dates_not_allowed = ["weken", "week", "maanden", "maand"]
     start_urls = ['https://www.pararius.nl/huurwoningen/'
-                  'utrecht/500-1200/straal-25',
+                  'utrecht/500-1200/straal-25/25m2',
                   'https://www.pararius.nl/huurwoningen/'
-                  'amersfoort/500-1200/straal-25',
+                  'amersfoort/500-1200/straal-25/25m2',
                   'https://www.pararius.nl/huurwoningen/'
-                  'apeldoorn/500-1200/straal-10',
+                  'apeldoorn/500-1200/straal-10/25m2',
                   ]
     huur_filter = '-te-huur'
 
