@@ -28,7 +28,7 @@ def getScrapedItems():
     return sorted_date_items
 
 if __name__ == "__main__":
-    old_scraped_json_path = 'json/output.json'
+    output_log_json_path = 'json/daily_output_log.json'
     scraped_path = './json/pararius.json'
     crawler_class = ParariusCrawler
 
@@ -36,7 +36,9 @@ if __name__ == "__main__":
     runCrawler(crawler_class, file_path=scraped_path)
     items_to_send = getScrapedItems()
     print(*items_to_send, sep="\n")
-    sent_items_json = util.readJson(old_scraped_json_path)
+    # Read previously sent items
+    sent_items_json = util.readJson(output_log_json_path)
     # Send telegram notifications and bookkeep what we have sent
     notify.send_telegram_notifications(items_to_send, sent_items_json, always_send=False)
-    util.saveJson(old_scraped_json_path, sent_items_json)
+    # Save updated sent items to output log
+    util.saveJson(output_log_json_path, sent_items_json)
