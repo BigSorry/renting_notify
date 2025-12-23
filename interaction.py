@@ -49,15 +49,15 @@ def click_send_button(driver):
             return
 
 
-def send_reaction(driver):
-    url = "https://www.pararius.nl/appartement-te-huur/veenendaal/b3c3a325/julianastraat"
-    driver.get(url)
-    check_cookies_buttons(driver)
-    click_contact_button(driver)
-    click_send_button(driver)
+def send_reaction(scraped_items, old_json):
+    driver = webdriver.Firefox()
+
+    for json_item in scraped_items:
+        url_key = list(json_item.keys())[0]
+        if url_key not in old_json:
+            driver.get(url_key)
+            check_cookies_buttons(driver)
+            click_contact_button(driver)
+            click_send_button(driver)
 
 
-driver = webdriver.Firefox()
-do_login(driver)
-time.sleep(1)
-send_reaction(driver)
