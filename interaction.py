@@ -61,3 +61,9 @@ def send_reaction(scraped_items, old_json):
             click_send_button(driver)
 
 
+def test_sel():
+    service = webdriver.FirefoxService(executable_path="/usr/local/bin/geckodriver")
+    driver = webdriver.Firefox(service=service)
+    do_login(driver)
+    
+test_sel()
