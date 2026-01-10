@@ -41,7 +41,9 @@ class ParariusCrawler(scrapy.Spider):
         main_description_information = response.css('span.listing-features__main-description::text').getall()
         date_str = main_description_information[1] # Assumes the second elements in the list is the stored date
         days_ago = util.dateDaysDiffToday(date_str)
-        print(date_str, " days ago ", days_ago)
+
+        #print(date_str, " days ago ", days_ago)
+
         if days_ago > 3 or any(keyword in date_str.lower() for keyword in self.dates_not_allowed):
             return
         yield {

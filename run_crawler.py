@@ -13,7 +13,7 @@ def runCrawler(crawler_class, file_path):
             "FEEDS": {
                 file_path: {"format": "json", "overwrite": True},
             },
-            "LOG_LEVEL" : "INFO"
+            "LOG_LEVEL" : "ERROR"
         }
     )
     process.crawl(crawler_class)
@@ -31,6 +31,7 @@ def getScrapedItems():
     return sorted_date_items
 
 if __name__ == "__main__":
+    print(f"Starting script at {datetime.datetime.now()}")
     load_dotenv()
     # Access the API key and private key from environment variables
     json_map = os.getenv("JSON_MAP")
@@ -44,9 +45,11 @@ if __name__ == "__main__":
     # Read previously sent items
     sent_items_json = util.readJson(output_log_json_path)
     # Send reaction first
-    inter.send_reaction(items_to_send, sent_items_json)
+    # TODO remove or just not use the interaction module
+    #inter.send_reaction(items_to_send, sent_items_json)
     # Send telegram notifications and bookkeep what we have sent
     notify.send_telegram_notifications(items_to_send, sent_items_json, always_send=False)
 
     # Save updated sent items to output log
     util.saveJson(output_log_json_path, sent_items_json)
+    print(f"Finished script at {datetime.datetime.now()}")
