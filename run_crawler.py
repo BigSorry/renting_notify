@@ -2,7 +2,6 @@ import os
 import util
 import datetime
 import notify_user as notify
-import interaction as inter
 from dotenv import load_dotenv
 from scrapy.crawler import CrawlerProcess
 from renting_scraper.renting_scraper.spiders.pararrius_crawler import ParariusCrawler
