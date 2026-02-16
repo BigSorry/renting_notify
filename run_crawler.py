@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
     runCrawler(crawler_class, file_path=scraped_path)
     items_to_send = getScrapedItems()
-    print(*items_to_send, sep="\n")
+    #print(*items_to_send, sep="\n")
     # Read previously sent items
     sent_items_json = util.readJson(output_log_json_path)
     # Send reaction first

@@ -2,6 +2,8 @@ import scrapy
 import webbrowser
 import time
 import util
+from dateutil.parser import parse
+
 class ParariusCrawler(scrapy.Spider):
     name = 'pararius_crawler'
     crawler_output_path = f"./json/{name}.json"
@@ -28,6 +30,22 @@ class ParariusCrawler(scrapy.Spider):
         for url in links:
             yield response.follow(url, callback=self.parse_listing)
 
+    def find_first_date(self, list_of_strings):
+        def is_date_string(s):
+            try:
+                parse(s, fuzzy=False)
+                return True
+            except ValueError:
+                return False
+
+        index = next(
+            (i for i, x in enumerate(list_of_strings)
+             if isinstance(x, str) and is_date_string(x)),
+            None
+        )
+
+        return list_of_strings[index]
+
     def parse_listing(self, response):
         # extract details from the listing page
         url = response.url
@@ -39,7 +57,8 @@ class ParariusCrawler(scrapy.Spider):
         number_of_rooms = response.css("li.illustrated-features__item--number-of-rooms::text").get(default="").strip()
         interior = response.css("li.illustrated-features__item--interior::text").get(default="").strip()
         main_description_information = response.css('span.listing-features__main-description::text').getall()
-        date_str = main_description_information[1] # Assumes the second elements in the list is the stored date
+
+        date_str = self.find_first_date(main_description_information) # Assumes the second elements in the list is the stored date
         days_ago = util.dateDaysDiffToday(date_str)
 
         #print(date_str, " days ago ", days_ago)
