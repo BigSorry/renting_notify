@@ -66,4 +66,3 @@ def test_sel():
     driver = webdriver.Firefox(service=service)
     do_login(driver)
     
-test_sel()
